@@ -4,15 +4,17 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.safari.SafariDriver;
 
-import java.io.FileNotFoundException;
 import java.time.Duration;
 
 public class Driver {
+
     private static ThreadLocal<WebDriver> driverPool = new ThreadLocal<>();
 
-    public static WebDriver getDriver() {
-        if (driverPool.get() == null){
+    public static WebDriver getDriver(){
+        if(driverPool.get() == null){
+
             switch (ConfigReader.getProperty("browser")){
                 case "chrome":
                     driverPool.set(new ChromeDriver());
@@ -34,9 +36,6 @@ public class Driver {
         return driverPool.get();
     }
 
-    private Driver(){
-        //aim to singleton pattern
-    }
 
     public static void closeDriver(){
         if (driverPool.get() != null){
